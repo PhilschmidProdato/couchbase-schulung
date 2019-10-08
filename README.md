@@ -48,3 +48,31 @@ docker exec -i -t couchbase1 /bin/bash
 ### EKS couchbase Cluster
 
 - https://github.com/couchbaselabs/cboperator-hol/tree/master/eks
+
+### Couchbase JDBC Config
+
+https://www.simba.com/products/Couchbase/doc/JDBC_InstallGuide/content/jdbc/co/using/connectionurl.htm
+
+````
+jdbc:couchbase:User='Administrator';Password='Password1234';Server='http://localhost'```
+````
+
+### Query via Curl
+
+```
+curl -d ‘select * from free’ -v http://localhost:8093/query
+```
+
+### Query via POST/GET
+
+Endpoint: http://node:8093/query/service
+
+Body Plain-text: 'select airline,airlineid,destinationairport,distance,equipment,schedule,sourceairport,stops from `travel-sample` where type = '\''route'\'' limit 1;'
+
+header: Basic-Auth -> Username + Password
+
+as Curl:
+curl --request POST \
+ --url http://localhost:8093/query \
+ --header 'authorization: Basic QWRtaW5pc3RyYXRvcjpQYXNzd29yZDEyMzQ=' \
+ --data 'select airline,airlineid,destinationairport,distance,equipment,schedule,sourceairport,stops from `travel-sample` where type = '\''route'\'' limit 1;'
